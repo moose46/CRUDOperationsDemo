@@ -20,3 +20,5 @@ class Employee(models.Model):
     HireDate = models.DateField()
     Notes = models.CharField(max_length=200)
     Country = models.CharField(max_length=35, choices=COUNTRIES, default=None)
+    Email = models.EmailField(default="", max_length=50)
+    PhoneNumber = models.CharField(default="", max_length=20)
