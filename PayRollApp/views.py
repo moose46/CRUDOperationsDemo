@@ -25,5 +25,5 @@ def EmployeeDelete(request, id):
     context = {"employee": employee}
     if request.method == "POST":
         employee.delete()
-        return redirect("PayRollApp/EmployeesList.html")
+        return redirect("EmployeesList")
     return render(request, TemplateFileName, context)

@@ -65,7 +65,7 @@
         <td>{{ employee.EmpDepartment.LocationName }}</td>
       </tr>
     </table>
-    <form action="POST">
+    <form method="POST">
       {% csrf_token %}
       <div>
         <input type="submit" value="Delete" class="btn btn-danger" />|
