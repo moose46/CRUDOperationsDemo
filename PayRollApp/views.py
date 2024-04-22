@@ -41,3 +41,16 @@ def EmployeeUpdate(request, id):
             form.save()
         return redirect("EmployeesList")
     return render(request, TemplateFileName, context)
+
+
+def EmployeeInsert(request):
+    TemplateFile = "PayRollApp/EmployeeInsert.html"
+    form = EmployeeForm()
+
+    if request.method == "POST":
+        form = EmployeeForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("EmployeesList")
+
+    return render(request, TemplateFile, {"form": form})
