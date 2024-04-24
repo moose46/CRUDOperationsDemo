@@ -13,7 +13,7 @@
       <table class="table">{{ form.as_table }}</table>
       {% csrf_token %}
       <input type="submit" class="btn btn-success btn-lg" value="Update Record" />|
-      <a href="/EmployeesList">Back to List</a>
+      <a href="{% url 'EmployeesList' %}">Back To List</a>
     </form>
   </body>
 </html>

@@ -11,9 +11,9 @@
 
     <h1>Employee Insert Form</h1>
     <form method="post">
-        <!-- <table class="table">
+        {% comment %} <table class="table">
           {{form.as_table}}          
-        </table> -->
+        </table> --> {% endcomment %}
         <!-- {{form.as_p}} 
         
             {{form.as_ul}}    -->     
@@ -33,7 +33,7 @@
                 <td>{{form.TitleName}}</td>
               </tr>
               <tr>
-                <td>First Name</td>
+                <td>Has Passport</td>
                 <td>{{form.HasPassport}}</td>
               </tr>
               <tr>
@@ -72,7 +72,7 @@
 
         {% csrf_token %}
       <input type="submit" name="" class = 'btn btn-success btn-lg' value="Insert Record">
-      <a href="/EmployeesList">Back to List</a>
+      <a href="{% url 'EmployeesList' %}">Back To List</a>
     </form>
 
 
