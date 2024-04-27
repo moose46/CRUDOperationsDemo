@@ -81,6 +81,12 @@ def BulkInsertDemo(request):
         for i in range(extra_forms)
     ]
     Status = ""
+    if request.method == "POST":
+        for form in forms:
+            if form.is_valid() and form.cleaned_data.get("FirstName", ""):
+                form.save()
+                Status = "Records were inserted successfully..."
+
     return render(
         request,
         "PayRollApp/parttimeemployee_list.html",
