@@ -8,4 +8,5 @@ urlpatterns = [
     path("EmployeeDelete/<int:id>/", views.EmployeeDelete, name="EmployeeDelete"),
     path("EmployeeUpdate/<int:id>/", views.EmployeeUpdate, name="EmployeeUpdate"),
     path("EmployeeInsert", views.EmployeeInsert, name="EmployeeInsert"),
+    path("BulkEmployeeInsert", views.BulkInsertDemo, name="BID"),
 ]

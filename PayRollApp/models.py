@@ -49,3 +49,9 @@ class Employee(models.Model):
     EmpCountry = models.ForeignKey(
         "Country", default=0, on_delete=models.PROTECT, related_name="Countries"
     )
+
+
+class PartTimeEmployee(models.Model):
+    FirstName = models.CharField(max_length=30)
+    LastName = models.CharField(max_length=30)
+    TitleName = models.CharField(max_length=30)

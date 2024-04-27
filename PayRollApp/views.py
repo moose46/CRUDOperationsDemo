@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 
-from PayRollApp.forms import EmployeeForm
-from PayRollApp.models import Employee
+from PayRollApp.forms import EmployeeForm, PartTimeEmployeeForm
+from PayRollApp.models import Employee, PartTimeEmployee
 
 
 # Create your views here.
@@ -72,3 +72,17 @@ def EmployeeInsert(request):
         return redirect("EmployeesList")
 
     return render(request, TemplateFile, {"form": form})
+
+
+def BulkInsertDemo(request):
+    extra_forms = 10
+    forms = [
+        PartTimeEmployeeForm(request.POST or None, prefix=f"employee-{i}")
+        for i in range(extra_forms)
+    ]
+    Status = ""
+    return render(
+        request,
+        "PayRollApp/parttimeemployee_list.html",
+        {"forms": forms, "extra_forms": range(extra_forms), "Status": Status},
+    )
