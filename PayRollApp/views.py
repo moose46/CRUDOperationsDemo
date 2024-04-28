@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 
-from PayRollApp.forms import EmployeeForm, PartTimeEmployeeForm
+from PayRollApp.forms import EmployeeForm, PartTimeEmployeeForm, PartTimeEmployeeFormSet
 from PayRollApp.models import Employee, PartTimeEmployee
 
 
@@ -91,4 +91,17 @@ def BulkInsertDemo(request):
         request,
         "PayRollApp/parttimeemployee_list.html",
         {"forms": forms, "extra_forms": range(extra_forms), "Status": Status},
+    )
+
+
+def NewBulkInsertDemo(request):
+    extra_forms = 10
+
+    formset = PartTimeEmployeeFormSet(
+        queryset=PartTimeEmployee.objects.none(), prefix="employee"
+    )
+    return render(
+        request,
+        "PayRollApp/NewBulkInsert.html",
+        {"formset": formset},
     )
