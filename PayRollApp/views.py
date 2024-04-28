@@ -95,13 +95,34 @@ def BulkInsertDemo(request):
 
 
 def NewBulkInsertDemo(request):
-    extra_forms = 10
 
-    formset = PartTimeEmployeeFormSet(
-        queryset=PartTimeEmployee.objects.none(), prefix="employee"
-    )
+    if request.method == "POST":
+        formset = PartTimeEmployeeFormSet(request.POST, prefix="employee")
+        if formset.is_valid():
+            employees = formset.save(commit=False)
+            PartTimeEmployee.objects.bulk_create(employees)
+            return redirect("NewBulkInsert")
+    else:
+        formset = PartTimeEmployeeFormSet(
+            queryset=PartTimeEmployee.objects.none(), prefix="employee"
+        )
     return render(
         request,
         "PayRollApp/NewBulkInsert.html",
         {"formset": formset},
+    )
+
+
+def BulkUpdateDemo(request):
+    employees = PartTimeEmployee.objects.all()
+    forms = [
+        PartTimeEmployeeForm(
+            request.POST or None, instance=employee, prefix=f"employee-{employee.id}"
+        )
+        for employee in employees
+    ]
+    return render(
+        request,
+        "PayRollApp/BulkUpdateDemo.html",
+        {"forms": forms, "employees": employees},
     )

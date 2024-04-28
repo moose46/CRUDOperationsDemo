@@ -9,5 +9,6 @@ urlpatterns = [
     path("EmployeeUpdate/<int:id>/", views.EmployeeUpdate, name="EmployeeUpdate"),
     path("EmployeeInsert", views.EmployeeInsert, name="EmployeeInsert"),
     path("BulkEmployeeInsert", views.BulkInsertDemo, name="BID"),
-    path("NewBulkInsert", views.NewBulkInsertDemo, name="NBID"),
+    path("NewBulkInsert", views.NewBulkInsertDemo, name="NewBulkInsert"),
+    path("BulkUpdate", views.BulkUpdateDemo, name="BulkUpdate"),
 ]
