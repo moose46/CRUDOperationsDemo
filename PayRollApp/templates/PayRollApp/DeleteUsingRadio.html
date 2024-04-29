@@ -14,9 +14,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th>
-                <input type="checkbox" id="select-all" class="mr-2" />&nbspSelect All / Deselect ALL
-              </th>
+              <th></th>
               <th>ID</th>
               <th>First Name</th>
               <th>Last Name</th>
@@ -51,9 +49,9 @@
             if (confirmDelete) {
               $('form').append('<input type="hidden" name="selected_id" value="' + selectedId + '">')
               $('form').submit()
-            } else {
-              alert('Please select a row to delete.')
             }
+          } else {
+            alert('Please select a row to delete.')
           }
         })
       })
