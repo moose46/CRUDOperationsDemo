@@ -134,8 +134,18 @@ def BulkUpdateDemo(request):
             updated_data, ["FirstName", "LastName", "TitleName"]
         )
 
-        return render(
-            request,
-            "PayRollApp/BulkUpdateDemo.html",
-            {"forms": forms, "employees": employees},
-        )
+    return render(
+        request,
+        "PayRollApp/BulkUpdateDemo.html",
+        {"forms": forms, "employees": employees},
+    )
+
+
+def BulkDeleteDemo(request):
+    employees = PartTimeEmployee.objects.all()
+
+    return render(
+        request,
+        "PayRollApp/BulkDelete.html",
+        {"employees": employees},
+    )
