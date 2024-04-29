@@ -121,8 +121,21 @@ def BulkUpdateDemo(request):
         )
         for employee in employees
     ]
-    return render(
-        request,
-        "PayRollApp/BulkUpdateDemo.html",
-        {"forms": forms, "employees": employees},
-    )
+    if request.method == "POST":
+        updated_data = []
+        for form in forms:
+            if form.is_valid():
+                employee = form.instance
+                employee.FirstName = form.cleaned_data["FirstName"]
+                employee.LastName = form.cleaned_data["LastName"]
+                employee.TitleName = form.cleaned_data["TitleName"]
+                updated_data.append(employee)
+        PartTimeEmployee.objects.bulk_update(
+            updated_data, ["FirstName", "LastName", "TitleName"]
+        )
+
+        return render(
+            request,
+            "PayRollApp/BulkUpdateDemo.html",
+            {"forms": forms, "employees": employees},
+        )
