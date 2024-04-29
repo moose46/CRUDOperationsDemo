@@ -143,9 +143,27 @@ def BulkUpdateDemo(request):
 
 def BulkDeleteDemo(request):
     employees = PartTimeEmployee.objects.all()
-
+    if request.method == "POST":
+        if selected_ids := request.POST.getlist("selected_ids"):
+            PartTimeEmployee.objects.filter(pk__in=selected_ids).delete()
+            return redirect("BulkDeleteDemo")
     return render(
         request,
         "PayRollApp/BulkDelete.html",
+        {"employees": employees},
+    )
+
+
+def DeleteUsingRadio(request):
+    employees = PartTimeEmployee.objects.all()
+
+    if request.method == "POST":
+        if selected_id := request.POST.get("selected_id"):
+            PartTimeEmployee.objects.filter(pk=selected_id).delete()
+            return redirect("DeleteUsingRadio")
+
+    return render(
+        request,
+        "PayRollApp/DeleteUsingRadio.html",
         {"employees": employees},
     )

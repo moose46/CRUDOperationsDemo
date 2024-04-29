@@ -12,4 +12,5 @@ urlpatterns = [
     path("NewBulkInsert", views.NewBulkInsertDemo, name="NewBulkInsert"),
     path("BulkUpdate", views.BulkUpdateDemo, name="BulkUpdate"),
     path("BulkDeleteDemo", views.BulkDeleteDemo, name="BulkDeleteDemo"),
+    path("DeleteUsingRadio", views.DeleteUsingRadio, name="DeleteUsingRadio"),
 ]
