@@ -13,4 +13,5 @@ urlpatterns = [
     path("BulkUpdate", views.BulkUpdateDemo, name="BulkUpdate"),
     path("BulkDeleteDemo", views.BulkDeleteDemo, name="BulkDeleteDemo"),
     path("DeleteUsingRadio", views.DeleteUsingRadio, name="DeleteUsingRadio"),
+    path("PageWiseEmployees", views.PageWiseEmployeesList, name="PageWiseEmployees"),
 ]

@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.paginator import PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 
 from PayRollApp.forms import EmployeeForm, PartTimeEmployeeForm, PartTimeEmployeeFormSet
@@ -166,4 +168,21 @@ def DeleteUsingRadio(request):
         request,
         "PayRollApp/DeleteUsingRadio.html",
         {"employees": employees},
+    )
+
+
+def PageWiseEmployeesList(request):
+    page_size = int(request.GET.get("page_size", getattr(settings, "PAGE_SIZE", 5)))
+    page = request.GET.get("page", 1)
+
+    employees = PartTimeEmployee.objects.all()
+    pageinator = Paginator(employees, page_size)
+    try:
+        employees_page = pageinator.page(page)
+    except PageNotAnInteger:
+        employees_page = pageinator.page(1)
+    return render(
+        request,
+        "PayRollApp/PageWiseEmployees.html",
+        {"employees_page": employees_page, "page_size": page_size},
     )
