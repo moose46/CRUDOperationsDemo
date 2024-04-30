@@ -17,4 +17,5 @@ urlpatterns = [
     path("cascadingselect/", views.cascadingselect, name="cascadingselect"),
     path("load_states/", views.load_states, name="load_states"),
     path("load_cities/", views.load_cities, name="load_cities"),
+    path("TransactionDemo/", views.TransactionDemo, name="TransactionDemo"),
 ]

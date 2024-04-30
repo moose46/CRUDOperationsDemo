@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.paginator import PageNotAnInteger, Paginator
+from django.db import transaction
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -244,3 +245,26 @@ def load_cities(request):
     state_id = request.GET.get("state_id")
     cities = City.objects.filter(state_id=state_id).values("id", "name")
     return JsonResponse(list(cities), safe=False)
+
+
+def TransactionDemo(request):
+    try:
+        with transaction.atomic():
+            employee = PartTimeEmployee.objects.create(
+                FirstName="Bob", LastName="Culbertson", TitleName="Friend"
+            )
+            employee = PartTimeEmployee.objects.create(
+                FirstName="Shane", LastName="McQuire", TitleName="Friend"
+            )
+            employee = PartTimeEmployee.objects.create(
+                FirstName="Bill", LastName="Verhoff", TitleName="Friend"
+            )
+            employee = PartTimeEmployee.objects.create(
+                FirstName="Robin", LastName="Leonard", TitleName="Boxer"
+            )
+            employee = PartTimeEmployee.objects.create(
+                FirstName="Bill", Lastame="Sweeney", TitleName="Salesman"
+            )
+    except Exception as e:
+        return render(request, "PayRollApp/TransactionDemo.html", {"Message": str(e)})
+    return render(request, "PayRollApp/TransactionDemo.html", {"Message": "Success!!!"})
