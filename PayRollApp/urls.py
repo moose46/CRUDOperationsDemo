@@ -14,4 +14,7 @@ urlpatterns = [
     path("BulkDeleteDemo", views.BulkDeleteDemo, name="BulkDeleteDemo"),
     path("DeleteUsingRadio", views.DeleteUsingRadio, name="DeleteUsingRadio"),
     path("PageWiseEmployees", views.PageWiseEmployeesList, name="PageWiseEmployees"),
+    path("cascadingselect/", views.cascadingselect, name="cascadingselect"),
+    path("load_states/", views.load_states, name="load_states"),
+    path("load_cities/", views.load_cities, name="load_cities"),
 ]

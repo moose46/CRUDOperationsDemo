@@ -6,7 +6,7 @@ from django.db.models.base import Model
 from django.forms import Select, TextInput, modelform_factory
 from django.forms.utils import ErrorList
 
-from PayRollApp.models import Employee, PartTimeEmployee
+from PayRollApp.models import Employee, OnSiteEmployees, PartTimeEmployee
 
 
 # Creating a Form based Model
@@ -25,6 +25,7 @@ PartTimeEmployeeForm = modelform_factory(
 )
 
 
+# Form Model
 class DynamicPartTimeEmployeeForm(PartTimeEmployeeForm):
     def __init__(self, *args, **kwargs) -> None:
         super(DynamicPartTimeEmployeeForm).__init__(*args, **kwargs)
@@ -41,3 +42,48 @@ class NewPartTimeEmployeeForm(forms.ModelForm):
 PartTimeEmployeeFormSet = forms.modelformset_factory(
     PartTimeEmployee, form=NewPartTimeEmployeeForm, extra=10
 )
+
+
+# Form Model
+class OnSiteEmployeesForm(forms.ModelForm):
+    class Meta:
+        model = OnSiteEmployees
+        fields = ["first_name", "last_name", "country", "state", "city"]
+
+        widgets = {
+            "first_name": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "style": "max-width: 300px;",
+                    "placeholder": "First Name",
+                }
+            ),
+            "last_name": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "style": "max-width: 300px;",
+                    "placeholder": "Last Name",
+                }
+            ),
+            "country": Select(
+                attrs={
+                    "class": "form-control",
+                    "style": "max-width: 300px;",
+                    "placeholder": "Country",
+                }
+            ),
+            "state": Select(
+                attrs={
+                    "class": "form-control",
+                    "style": "max-width: 300px;",
+                    "placeholder": "State",
+                }
+            ),
+            "city": Select(
+                attrs={
+                    "class": "form-control",
+                    "style": "max-width: 300px;",
+                    "placeholder": "City",
+                }
+            ),
+        }

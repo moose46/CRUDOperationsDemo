@@ -1,9 +1,16 @@
 from django.conf import settings
 from django.core.paginator import PageNotAnInteger, Paginator
+from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
-from PayRollApp.forms import EmployeeForm, PartTimeEmployeeForm, PartTimeEmployeeFormSet
-from PayRollApp.models import Employee, PartTimeEmployee
+from PayRollApp.forms import (
+    EmployeeForm,
+    OnSiteEmployeesForm,
+    PartTimeEmployeeForm,
+    PartTimeEmployeeFormSet,
+)
+from PayRollApp.models import City, Employee, PartTimeEmployee, State
 
 
 # Create your views here.
@@ -175,7 +182,27 @@ def PageWiseEmployeesList(request):
     page_size = int(request.GET.get("page_size", getattr(settings, "PAGE_SIZE", 5)))
     page = request.GET.get("page", 1)
 
-    employees = PartTimeEmployee.objects.all()
+    search_query = request.GET.get("search", "")
+
+    sort_by = request.GET.get("sort_by", "id")
+    sort_order = request.GET.get("sort_order", "asc")
+
+    valid_sort_fields = ["id", "FirstName", "LastName", "TitleName"]
+    if sort_by not in valid_sort_fields:
+        sort_by = "id"
+
+    employees = PartTimeEmployee.objects.filter(
+        Q(id__icontains=search_query)
+        | Q(FirstName__icontains=search_query)
+        | Q(LastName__icontains=search_query)
+        | Q(TitleName__icontains=search_query)
+    )
+    # apply sorting
+    if sort_order == "desc":
+        employees.order_by(f"-{sort_by}")
+    else:
+        employees.order_by(f"{sort_by}")
+    # employees = PartTimeEmployee.objects.all()
     pageinator = Paginator(employees, page_size)
     try:
         employees_page = pageinator.page(page)
@@ -184,5 +211,36 @@ def PageWiseEmployeesList(request):
     return render(
         request,
         "PayRollApp/PageWiseEmployees.html",
-        {"employees_page": employees_page, "page_size": page_size},
+        context={
+            "employees_page": employees_page,
+            "page_size": page_size,
+            "search_query": search_query,
+            "sort_by": sort_by,
+            "sort_order": sort_order,
+        },
     )
+
+
+def cascadingselect(request):
+    employee_form = OnSiteEmployeesForm()
+
+    if request.method == "POST":
+        employee_form = OnSiteEmployeesForm(request.POST)
+        if employee_form.is_valid():
+            employee_form.save()
+            return JsonResponse({"success": True})
+    return render(
+        request, "PayRollAPp/CascadingDemo.html", {"employee_form": employee_form}
+    )
+
+
+def load_states(request):
+    country_id = request.GET.get("country_id")
+    states = State.objects.filter(country_id=country_id).values("id", "name")
+    return JsonResponse(list(states), safe=False)
+
+
+def load_cities(request):
+    state_id = request.GET.get("state_id")
+    cities = City.objects.filter(state_id=state_id).values("id", "name")
+    return JsonResponse(list(cities), safe=False)
